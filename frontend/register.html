@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register – FemBridge</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body style="background:linear-gradient(135deg,var(--pink-pastel) 0%,var(--white) 100%);min-height:100vh;display:flex;flex-direction:column;">
+
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Fem<span>Bridge</span> 🌸</a>
+    <a href="index.html" class="nav-link" style="color:var(--gray-700);">← Back to Home</a>
+  </div>
+</nav>
+
+<div class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+  <div class="form-wrapper fade-in" style="width:100%;max-width:480px;">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div style="font-size:2.8rem;margin-bottom:0.5rem;">✨</div>
+      <h2>Create Your Account</h2>
+      <p style="color:var(--gray-500);font-size:0.92rem;">Join thousands of women finding their dream jobs</p>
+    </div>
+
+    <form id="register-form" novalidate>
+      <div class="form-group-custom">
+        <label class="form-label-custom" for="reg-name">Full Name</label>
+        <input class="form-control-custom" type="text" id="reg-name" placeholder="Your full name" required />
+      </div>
+
+      <div class="form-group-custom">
+        <label class="form-label-custom" for="reg-email">Email Address</label>
+        <input class="form-control-custom" type="email" id="reg-email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="form-group-custom">
+        <label class="form-label-custom" for="reg-password">Password</label>
+        <input class="form-control-custom" type="password" id="reg-password" placeholder="Min. 6 characters" required />
+      </div>
+
+      <div class="form-group-custom">
+        <label class="form-label-custom" for="reg-skills">
+          Your Skills
+          <span style="color:var(--gray-500);font-weight:400;">(comma-separated)</span>
+        </label>
+        <input class="form-control-custom" type="text" id="reg-skills"
+          placeholder="e.g. python, machine learning, sql" />
+        <p style="font-size:0.78rem;color:var(--gray-500);margin-top:0.3rem;">
+          💡 Adding skills helps our AI find the best jobs for you.
+        </p>
+      </div>
+
+      <div class="form-group-custom">
+        <label class="form-label-custom" for="reg-location">Your City / Location</label>
+        <select class="form-control-custom" id="reg-location">
+          <option value="">Select your city</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Chennai">Chennai</option>
+          <option value="Pune">Pune</option>
+          <option value="Kolkata">Kolkata</option>
+          <option value="Bhopal">Bhopal</option>
+          <option value="Remote">Remote (Work from home)</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <!-- Skills tag preview -->
+      <div id="skills-preview" style="display:none;margin-bottom:1.2rem;"></div>
+
+      <button type="submit" class="btn-primary-pink"
+        style="width:100%;justify-content:center;padding:0.75rem;font-size:1rem;margin-top:0.2rem;">
+        Create Account 🌸
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:1.5rem;font-size:0.9rem;color:var(--gray-500);">
+      Already have an account?
+      <a href="login.html" style="color:var(--pink-deep);font-weight:600;">Sign in here</a>
+    </p>
+  </div>
+</div>
+
+<footer>
+  <p>FemBridge © 2024 — Women's Career Portal</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Live skill tag preview
+  document.getElementById("reg-skills")?.addEventListener("input", function () {
+    const preview = document.getElementById("skills-preview");
+    const skills  = this.value.split(",").map(s => s.trim()).filter(Boolean);
+    if (!skills.length) { preview.style.display = "none"; return; }
+    preview.style.display = "block";
+    preview.innerHTML = skills.map(s =>
+      `<span style="display:inline-block;background:var(--pink-pale);color:var(--pink-deep);
+        border:1px solid var(--pink-light);border-radius:var(--radius-pill);
+        padding:0.2rem 0.7rem;font-size:0.8rem;font-weight:600;margin:0.2rem;">${s}</span>`
+    ).join("");
+  });
+</script>
+</body>
+</html>

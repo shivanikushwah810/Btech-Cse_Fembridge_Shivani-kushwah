@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile – FemBridge</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Fem<span>Bridge</span> 🌸</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="jobs.html">Jobs</a></li>
+        <li id="nav-auth" style="display:flex;gap:0.5rem;align-items:center;">
+          <a href="login.html" class="btn-outline-pink" style="font-size:0.88rem;">Login</a>
+        </li>
+        <li id="nav-user" style="display:none;gap:0.5rem;align-items:center;">
+          <a href="dashboard.html" class="nav-link">Dashboard</a>
+          <a href="profile.html" class="nav-link active">👤 <span id="nav-username"></span></a>
+          <button id="logout-btn" class="btn-outline-pink" style="font-size:0.85rem;">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── PAGE HEADER ────────────────────────────────────────────────────────── -->
+<section style="background:linear-gradient(135deg,var(--pink-pastel),var(--white));padding:2.5rem 0 1.5rem;border-bottom:1px solid var(--pink-light);">
+  <div class="container">
+    <h1 style="font-size:2rem;margin-bottom:0.3rem;">My Profile 👤</h1>
+    <p style="color:var(--gray-500);">Keep your profile updated to get the best job recommendations.</p>
+  </div>
+</section>
+
+<div class="container py-4">
+  <div class="row g-4 justify-content-center">
+
+    <!-- ── Profile Card ─────────────────────────────────────────────────── -->
+    <div class="col-lg-4">
+      <div class="card-custom p-4 text-center mb-4">
+        <!-- Avatar -->
+        <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--pink-deep),var(--pink-mid));
+          display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:white;margin:0 auto 1rem;">
+          👩
+        </div>
+        <h4 id="profile-name" style="margin-bottom:0.2rem;">—</h4>
+        <p id="profile-email" style="color:var(--gray-500);font-size:0.9rem;margin-bottom:1rem;">—</p>
+
+        <div style="background:var(--pink-pastel);border-radius:var(--radius-md);padding:1rem;text-align:left;">
+          <p style="font-size:0.82rem;color:var(--gray-500);margin-bottom:0.3rem;font-weight:600;">📍 Location</p>
+          <p id="profile-location" style="font-weight:600;margin:0;font-size:0.95rem;">—</p>
+        </div>
+
+        <div style="background:var(--pink-pastel);border-radius:var(--radius-md);padding:1rem;text-align:left;margin-top:0.8rem;">
+          <p style="font-size:0.82rem;color:var(--gray-500);margin-bottom:0.5rem;font-weight:600;">🛠 Skills</p>
+          <div id="profile-skills-display" style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+            <span style="color:var(--gray-500);font-size:0.85rem;">No skills added yet</span>
+          </div>
+        </div>
+
+        <a href="dashboard.html" class="btn-outline-pink" style="width:100%;justify-content:center;margin-top:1.2rem;">
+          ← Back to Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Edit Form ─────────────────────────────────────────────────────── -->
+    <div class="col-lg-7">
+      <div class="card-custom p-4">
+        <h5 style="margin-bottom:1.5rem;">✏️ Edit Profile</h5>
+
+        <form id="profile-form" novalidate>
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="edit-name">Full Name</label>
+            <input class="form-control-custom" type="text" id="edit-name" placeholder="Your full name" />
+          </div>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="edit-email">Email Address</label>
+            <input class="form-control-custom" type="email" id="edit-email" placeholder="your@email.com" disabled
+              style="background:var(--gray-100);cursor:not-allowed;color:var(--gray-500);" />
+            <p style="font-size:0.78rem;color:var(--gray-500);margin-top:0.3rem;">Email cannot be changed.</p>
+          </div>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="edit-skills">
+              Skills
+              <span style="color:var(--gray-500);font-weight:400;">(comma-separated)</span>
+            </label>
+            <input class="form-control-custom" type="text" id="edit-skills"
+              placeholder="e.g. python, machine learning, sql, communication" />
+            <p style="font-size:0.78rem;color:var(--gray-500);margin-top:0.3rem;">
+              💡 More skills = better AI job recommendations!
+            </p>
+            <!-- Live skill tags -->
+            <div id="edit-skills-preview" style="display:none;margin-top:0.5rem;"></div>
+          </div>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="edit-location">City / Location</label>
+            <select class="form-control-custom" id="edit-location">
+              <option value="">Select your city</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Bangalore">Bangalore</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Pune">Pune</option>
+              <option value="Kolkata">Kolkata</option>
+              <option value="Bhopal">Bhopal</option>
+              <option value="Remote">Remote (Work from home)</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <button type="submit" class="btn-primary-pink" style="padding:0.7rem 2rem;">
+              Save Changes ✓
+            </button>
+            <button type="button" class="btn-outline-pink" onclick="loadProfile()" style="padding:0.7rem 1.5rem;">
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── Resume Upload ─────────────────────────────────────────────── -->
+      <div class="card-custom p-4 mt-4">
+        <h5 style="margin-bottom:0.5rem;">📄 Resume Analyzer</h5>
+        <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:1.2rem;">
+          Upload your resume (.pdf, .docx, or .txt) and get an instant AI-powered score with improvement tips.
+        </p>
+
+        <div style="border:2px dashed var(--pink-light);border-radius:var(--radius-md);padding:2rem;text-align:center;cursor:pointer;"
+          onclick="document.getElementById('profile-resume-upload').click()">
+          <div style="font-size:2.5rem;margin-bottom:0.5rem;">📁</div>
+          <p style="font-weight:600;font-size:0.95rem;margin:0;color:var(--gray-700);">Click to Upload Resume</p>
+          <p style="font-size:0.82rem;color:var(--gray-500);margin:0.3rem 0 0;">.pdf, .docx, or .txt accepted</p>
+          <input type="file" id="profile-resume-upload" accept=".pdf,.docx,.doc,.txt" style="display:none;" />
+        </div>
+
+        <div id="resume-result" style="margin-top:1.2rem;display:none;">
+          <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+            <div class="score-ring-wrapper">
+              <div class="score-ring" id="profile-score-ring">
+                <span class="score-text" id="profile-score-text">0</span>
+              </div>
+              <p style="font-size:0.82rem;color:var(--gray-500);margin:0;">Score / 100</p>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <p style="font-weight:700;margin-bottom:0.5rem;font-size:0.95rem;">💡 Suggestions</p>
+              <ul id="profile-suggestions" style="list-style:none;padding:0;margin:0;"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>Made with <span>♥</span> for women everywhere &nbsp;|&nbsp; FemBridge © 2024</p>
+</footer>
+
+<!-- ── CHATBOT ─────────────────────────────────────────────────────────────── -->
+<button id="chatbot-btn" title="Chat with FemBot">💬</button>
+<div id="chatbot-window">
+  <div class="chatbot-header">
+    🌸 FemBot – Career Assistant
+    <button id="chatbot-close" style="background:none;border:none;color:white;font-size:1.1rem;cursor:pointer;">✕</button>
+  </div>
+  <div class="chatbot-messages" id="chatbot-messages"></div>
+  <div class="chatbot-input-row">
+    <input id="chat-input" type="text" placeholder="Ask me anything..." />
+    <button id="chat-send">Send</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/chatbot.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const user = requireAuth();
+  if (!user) return;
+  loadProfile();
+
+  // Live skills preview
+  document.getElementById("edit-skills").addEventListener("input", function () {
+    renderSkillTags(this.value, "edit-skills-preview");
+  });
+
+  // Save profile
+  document.getElementById("profile-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector("button[type=submit]");
+    btn.disabled = true;
+    btn.textContent = "Saving...";
+
+    const payload = {
+      name:     document.getElementById("edit-name").value.trim(),
+      skills:   document.getElementById("edit-skills").value.trim(),
+      location: document.getElementById("edit-location").value,
+    };
+
+    const res = await apiFetch("/profile", {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    });
+
+    showToast(res.message, res.success ? "success" : "error");
+    btn.disabled = false;
+    btn.textContent = "Save Changes ✓";
+
+    if (res.success) {
+      // Update local storage
+      const current = getUser();
+      setUser({ ...current, ...payload });
+      loadProfile();
+    }
+  });
+
+  // Resume upload
+  document.getElementById("profile-resume-upload").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    showToast("Analyzing your resume...", "info");
+
+    const formData = new FormData();
+    formData.append("resume", file);
+
+    try {
+      const res = await fetch("http://localhost:5000/resume", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        showToast(`Score: ${data.score}/100`, "success");
+
+        // Show result section
+        document.getElementById("resume-result").style.display = "block";
+
+        const ring = document.getElementById("profile-score-ring");
+        ring.style.background = `conic-gradient(var(--pink-deep) ${data.score * 3.6}deg, var(--pink-light) 0deg)`;
+        document.getElementById("profile-score-text").textContent = data.score;
+
+        const ul = document.getElementById("profile-suggestions");
+        ul.innerHTML = data.suggestions.map(s =>
+          `<li style="font-size:0.85rem;color:var(--gray-700);margin-bottom:0.35rem;">💡 ${s}</li>`
+        ).join("");
+      } else {
+        showToast(data.message || "Upload failed", "error");
+      }
+    } catch {
+      showToast("Upload error. Is the backend running?", "error");
+    }
+  });
+});
+
+async function loadProfile() {
+  const res = await apiFetch("/profile");
+  if (!res.success) return;
+
+  const u = res.user;
+
+  // Sidebar display
+  document.getElementById("profile-name").textContent     = u.name || "—";
+  document.getElementById("profile-email").textContent    = u.email || "—";
+  document.getElementById("profile-location").textContent = u.location || "Not set";
+
+  // Skills badges
+  const skillsDiv = document.getElementById("profile-skills-display");
+  if (u.skills) {
+    skillsDiv.innerHTML = u.skills.split(",").map(s => s.trim()).filter(Boolean).map(s =>
+      `<span style="background:var(--pink-pale);color:var(--pink-deep);border:1px solid var(--pink-light);
+        border-radius:var(--radius-pill);padding:0.2rem 0.65rem;font-size:0.8rem;font-weight:600;">${s}</span>`
+    ).join("");
+  } else {
+    skillsDiv.innerHTML = `<span style="color:var(--gray-500);font-size:0.85rem;">No skills added yet</span>`;
+  }
+
+  // Form fields
+  document.getElementById("edit-name").value     = u.name     || "";
+  document.getElementById("edit-email").value    = u.email    || "";
+  document.getElementById("edit-skills").value   = u.skills   || "";
+  document.getElementById("edit-location").value = u.location || "";
+
+  renderSkillTags(u.skills || "", "edit-skills-preview");
+}
+
+function renderSkillTags(raw, containerId) {
+  const container = document.getElementById(containerId);
+  const skills = raw.split(",").map(s => s.trim()).filter(Boolean);
+  if (!skills.length) { container.style.display = "none"; return; }
+  container.style.display = "flex";
+  container.style.flexWrap = "wrap";
+  container.style.gap = "0.3rem";
+  container.innerHTML = skills.map(s =>
+    `<span style="background:var(--pink-pale);color:var(--pink-deep);border:1px solid var(--pink-light);
+      border-radius:var(--radius-pill);padding:0.2rem 0.65rem;font-size:0.8rem;font-weight:600;">${s}</span>`
+  ).join("");
+}
+</script>
+</body>
+</html>

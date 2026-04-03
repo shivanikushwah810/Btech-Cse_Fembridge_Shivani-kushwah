@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Jobs – FemBridge</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Fem<span>Bridge</span> 🌸</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="jobs.html">Jobs</a></li>
+        <li id="nav-auth" style="display:flex;gap:0.5rem;align-items:center;">
+          <a href="login.html" class="btn-outline-pink" style="font-size:0.88rem;">Login</a>
+          <a href="register.html" class="btn-primary-pink" style="font-size:0.88rem;">Register</a>
+        </li>
+        <li id="nav-user" style="display:none;gap:0.5rem;align-items:center;">
+          <a href="dashboard.html" class="nav-link">Dashboard</a>
+          <a href="profile.html" class="nav-link">👤 <span id="nav-username"></span></a>
+          <button id="logout-btn" class="btn-outline-pink" style="font-size:0.85rem;">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── PAGE HEADER ────────────────────────────────────────────────────────── -->
+<section style="background:linear-gradient(135deg,var(--pink-pastel),var(--white));padding:2.5rem 0 1.5rem;border-bottom:1px solid var(--pink-light);">
+  <div class="container">
+    <h1 style="font-size:2rem;margin-bottom:0.3rem;">Browse Jobs 💼</h1>
+    <p style="color:var(--gray-500);">Discover opportunities matched to your skills and location.</p>
+  </div>
+</section>
+
+<div class="container py-4">
+
+  <!-- ── Filter Bar ───────────────────────────────────────────────────────── -->
+  <div class="filter-bar mb-4">
+    <div style="flex:1;min-width:200px;">
+      <input id="search-input" type="text" placeholder="🔍 Search by title or company..." style="width:100%;" />
+    </div>
+
+    <select id="location-filter" style="min-width:160px;">
+      <option value="">📍 All Locations</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Bangalore">Bangalore</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Chennai">Chennai</option>
+      <option value="Pune">Pune</option>
+      <option value="Bhopal">Bhopal</option>
+      <option value="Remote">Remote</option>
+    </select>
+
+    <select id="type-filter" style="min-width:140px;">
+      <option value="">⏰ All Types</option>
+      <option value="Full-time">Full-time</option>
+      <option value="Part-time">Part-time</option>
+    </select>
+
+    <button class="btn-outline-pink" onclick="clearFilters()" style="font-size:0.85rem;white-space:nowrap;">
+      Clear ✕
+    </button>
+  </div>
+
+  <!-- ── Results Header ───────────────────────────────────────────────────── -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+    <p style="font-size:0.9rem;color:var(--gray-500);margin:0;">
+      Showing <strong id="job-count">...</strong>
+    </p>
+    <div style="font-size:0.82rem;color:var(--gray-500);">
+      💡 Remote jobs are always included with location filters
+    </div>
+  </div>
+
+  <!-- ── Jobs Grid ─────────────────────────────────────────────────────────── -->
+  <div class="row">
+    <div class="col-lg-8">
+      <div id="jobs-container">
+        <div class="page-loading"><div class="spinner"></div>Loading jobs...</div>
+      </div>
+    </div>
+
+    <!-- ── Sidebar ─────────────────────────────────────────────────────── -->
+    <div class="col-lg-4">
+      <div class="card-custom p-4 mb-4" style="position:sticky;top:80px;">
+        <h6 style="font-weight:700;margin-bottom:1rem;color:var(--pink-deep);">🤖 Get AI Recommendations</h6>
+        <p style="font-size:0.88rem;color:var(--gray-500);margin-bottom:1rem;">
+          Let our AI find the best jobs based on your skills and profile.
+        </p>
+        <div id="sidebar-cta"></div>
+      </div>
+
+      <div class="card-custom p-4">
+        <h6 style="font-weight:700;margin-bottom:1rem;">📊 Job Categories</h6>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;">
+          <button class="btn-outline-pink" style="font-size:0.82rem;justify-content:flex-start;"
+            onclick="setSearch('python developer')">💻 Python / Backend</button>
+          <button class="btn-outline-pink" style="font-size:0.82rem;justify-content:flex-start;"
+            onclick="setSearch('frontend developer')">🎨 Frontend / Design</button>
+          <button class="btn-outline-pink" style="font-size:0.82rem;justify-content:flex-start;"
+            onclick="setSearch('data')">📊 Data & Analytics</button>
+          <button class="btn-outline-pink" style="font-size:0.82rem;justify-content:flex-start;"
+            onclick="setSearch('machine learning')">🤖 AI / ML</button>
+          <button class="btn-outline-pink" style="font-size:0.82rem;justify-content:flex-start;"
+            onclick="setSearch('marketing')">📣 Marketing</button>
+          <button class="btn-outline-pink" style="font-size:0.82rem;justify-content:flex-start;"
+            onclick="setSearch('hr manager')">👥 HR & Management</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Made with <span>♥</span> for women everywhere &nbsp;|&nbsp; FemBridge © 2024</p>
+</footer>
+
+<!-- ── CHATBOT ─────────────────────────────────────────────────────────────── -->
+<button id="chatbot-btn" title="Chat with FemBot">💬</button>
+<div id="chatbot-window">
+  <div class="chatbot-header">
+    🌸 FemBot – Career Assistant
+    <button id="chatbot-close" style="background:none;border:none;color:white;font-size:1.1rem;cursor:pointer;">✕</button>
+  </div>
+  <div class="chatbot-messages" id="chatbot-messages"></div>
+  <div class="chatbot-input-row">
+    <input id="chat-input" type="text" placeholder="Ask me anything..." />
+    <button id="chat-send">Send</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/jobs.js"></script>
+<script src="js/chatbot.js"></script>
+<script>
+  // Sidebar CTA based on login state
+  document.addEventListener("DOMContentLoaded", () => {
+    const user = getUser();
+    const cta  = document.getElementById("sidebar-cta");
+    if (user) {
+      cta.innerHTML = `<a href="dashboard.html" class="btn-primary-pink" style="width:100%;justify-content:center;">
+        View My Recommendations →
+      </a>`;
+    } else {
+      cta.innerHTML = `<a href="register.html" class="btn-primary-pink" style="width:100%;justify-content:center;">
+        Register to Get Matches →
+      </a>`;
+    }
+  });
+
+  function setSearch(query) {
+    const input = document.getElementById("search-input");
+    if (input) { input.value = query; loadJobs(); }
+  }
+
+  function clearFilters() {
+    document.getElementById("search-input").value  = "";
+    document.getElementById("location-filter").value = "";
+    document.getElementById("type-filter").value    = "";
+    loadJobs();
+  }
+</script>
+</body>
+</html>

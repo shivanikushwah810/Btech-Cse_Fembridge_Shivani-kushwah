@@ -109,9 +109,5 @@ fembridge/
 - **Fonts:** Playfair Display (headings) + DM Sans (body)
 - **Framework:** Bootstrap 5.3
 - **Responsive:** Mobile-first layout
-- ![WhatsApp Image 2026-04-10 at 09 16 57](https://github.com/user-attachments/assets/404ff3d6-2b0f-4d18-ae4e-0c6bdc96472c)
-![WhatsApp Image 2026-04-10 at 09 16 21](https://github.com/user-attachments/assets/3c79dcc1-9b55-4022-b8e3-9d27ec607310)
-![WhatsApp Image 2026-04-10 at 09 15 50](https://github.com/user-attachments/assets/2319b839-dfcf-477f-afb3-66b76eeb6ffb)
-![WhatsApp Image 2026-04-10 at 09 15 09](https://github.com/user-attachments/assets/ebdf490c-63cb-417d-b247-b98d72767de0)
-![WhatsApp Image 2026-04-10 at 09 14 43](https://github.com/user-attachments/assets/560b55c9-ec21-4a91-af7b-96ead6e22376)
+
 
